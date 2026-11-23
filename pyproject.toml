@@ -9,7 +9,7 @@ description = "cbh — terminal-native recon/classify/triage/report runner for t
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-authors = [{ name = "Sachin Sharma" }]
+authors = [{ name = "Rauf" }]
 keywords = ["security", "bug-bounty", "recon", "claude", "pentest"]
 dependencies = []
 
@@ -18,8 +18,8 @@ dependencies = []
 http = ["requests"]
 
 [project.urls]
-Homepage = "https://github.com/elementalsouls/Claude-BugHunter"
-Documentation = "https://github.com/elementalsouls/Claude-BugHunter/blob/main/docs/cbh-cli.md"
+Homepage = "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter"
+Documentation = "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter/blob/main/docs/cbh-cli.md"
 
 [project.scripts]
 cbh = "cbh.cli:main"

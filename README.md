@@ -4,25 +4,7 @@
 
 > A self-contained Claude skill bundle for bug hunting and external red-team work · **83 skills** · 15 slash commands · **681 disclosed-report patterns** (433 now individually cited & auditable) across 24 core vulnerability classes · enterprise identity + infrastructure attack matrices · engagement-folder scaffolding · Burp MCP integration · battle-tested across authorized red-team and bug-hunting engagements, plus public training platforms (DVWA, OWASP Juice Shop, Hacker101, testphp.vulnweb.com).
 
-Built by **[Sachin Sharma](https://www.linkedin.com/in/sachinsharma8080/)** — Bug Hunting & GenAI Security Research.
-
-<p align="center">
-  <sub>SPONSORED BY</sub>
-  <br/>
-  <a href="https://www.apismart.ai/">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/sponsors/apismart-dark.png">
-      <img alt="ApiSmart" src="assets/sponsors/apismart-light.png" height="30">
-    </picture>
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://threatwatch360.com">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/sponsors/tw360-dark.svg">
-      <img alt="ThreatWatch360" src="assets/sponsors/tw360-light.svg" height="30">
-    </picture>
-  </a>
-</p>
+Built by **[Rauf](https://github.com/mansoorwanimansoorwani23-collab)** — Bug Hunting & Security Research.
 
 ---
 
@@ -46,8 +28,8 @@ All triggered automatically by topic — describe what you're testing in plain E
 **Option A — install as a Claude Code plugin (recommended).** From inside Claude Code:
 
 ```text
-/plugin marketplace add elementalsouls/Claude-BugHunter
-/plugin install claude-bughunter@elementalsouls
+/plugin marketplace add mansoorwanimansoorwani23-collab/Claude-BugHunter
+/plugin install claude-bughunter@mansoorwanimansoorwani23-collab
 ```
 
 All 83 skills + 15 commands load namespaced under `claude-bughunter:` and update when you bump the plugin version — no files copied into `~/.claude/`.
@@ -57,7 +39,7 @@ All 83 skills + 15 commands load namespaced under `claude-bughunter:` and update
 **Option B — copy install (no plugin system / pin to a clone):**
 
 ```bash
-git clone https://github.com/elementalsouls/Claude-BugHunter.git
+git clone https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter.git
 cd Claude-BugHunter
 ```
 
@@ -79,7 +61,7 @@ Both copy the skills + commands into `~/.claude/` (macOS/Linux) or `%USERPROFILE
 | **B — copy install** | ✅ copied into `~/.claude/` | ✅ from the clone | ✅ from the clone |
 
 The plugin is the fastest path to the skills + slash commands. The terminal-native
-`cbh` runner installs standalone — `pipx install git+https://github.com/elementalsouls/Claude-BugHunter`
+`cbh` runner installs standalone — `pipx install git+https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter`
 — so plugin users can add it without a full clone (see [`cbh` CLI](docs/cbh-cli.md)).
 The `hunt` engagement scaffolder ships with the clone (Option B).
 
@@ -133,7 +115,7 @@ pwsh ./scripts/install.ps1 -All -BurpMcp
 
 ## Star History
 
-<a href="https://github.com/elementalsouls/Claude-BugHunter/stargazers">
+<a href="https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter/stargazers">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="assets/star-history-dark.svg" />
    <source media="(prefers-color-scheme: light)" srcset="assets/star-history-light.svg" />
@@ -287,36 +269,11 @@ The per-class `hunt-*` skills address gap-zero (*"what should I look for in weba
 
 ---
 
-## Sponsors
-
-<p align="center">
-  <a href="https://www.apismart.ai/"><picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/sponsors/apismart-dark.png">
-    <img alt="ApiSmart" src="assets/sponsors/apismart-light.png" width="210">
-  </picture></a>
-</p>
-
-**[ApiSmart](https://www.apismart.ai/)** unifies leading LLM, image, and video models through one OpenAI-compatible API. Use one key to switch models, simplify billing, and improve reliability with automatic failover.
-
-<p align="center">
-  <a href="https://threatwatch360.com"><picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/sponsors/tw360-dark.svg">
-    <img alt="ThreatWatch360" src="assets/sponsors/tw360-light.svg" width="430">
-  </picture></a>
-</p>
-
-**[ThreatWatch360](https://threatwatch360.com)** is an AI-powered offensive-security platform: continuous Attack Surface Management, AI-assisted penetration testing, brand protection, dark-web monitoring, and Cyber Threat Intelligence in one platform. Validated findings with proof-of-concept and business-impact prioritization — signal over alert fatigue.
-
-
----
-
 ## About
 
 Operational tradecraft accumulated across bug-bounty engagements and authorized pentests, codified into Claude skills. Platform-agnostic — slot into any engagement workflow you already use, or none.
 
-**Author:** [ElementalSoul](https://github.com/elementalsouls) · GenAI Security Research
-
-**Sister project:** [Claude-OSINT](https://github.com/elementalsouls/Claude-OSINT) — paired skills for the recon phase that this bundle picks up after. Its two recon skills (`offensive-osint`, `osint-methodology`) are **canonically maintained here** and re-exported there, so the two are byte-identical. **Installing both is safe:** each bundle's installer (`install.sh` on macOS/Linux, `install.ps1` on Windows) records a manifest, the script skips re-copying an identical skill, and `--uninstall` keeps any skill the other bundle still owns — uninstalling one never breaks the other.
+**Author:** [Rauf](https://github.com/mansoorwanimansoorwani23-collab) · Bug Hunting & Security Research
 
 **Vendored foundation:** [shuvonsec/claude-bug-bounty](https://github.com/shuvonsec/claude-bug-bounty) — methodology, validation, reporting, payload library (8 of 83 skills + 15 slash commands)
 
@@ -341,7 +298,7 @@ This project is dual-licensed:
 
 To be precise about the boundary: **`*.py`, `*.sh`, and other source files are MIT; `*.md` documentation, wordlists, regex catalogs, and rubrics are CC BY 4.0.**
 
-Reuse the content freely — including commercially — as long as you credit **Sachin Sharma / Claude-BugHunter** and link back to this repository. See [`NOTICE`](NOTICE) for upstream-skills attribution.
+Reuse the content freely — including commercially — as long as you credit **Rauf / Claude-BugHunter** and link back to this repository. See [`NOTICE`](NOTICE) for upstream-skills attribution.
 
 ---
 

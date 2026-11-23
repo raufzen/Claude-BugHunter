@@ -3,11 +3,11 @@
   "description": "83-skill bug-hunting & external red-team bundle for Claude Code — 58 hunt-* web/vuln-class + framework skills, enterprise platform attack chains (M365/Entra, Okta, SharePoint, vCenter, SSL-VPN, APK/iOS), recon/OSINT, reporting & validation gates, and Burp MCP integration. Skills auto-load by topic; 15 slash commands included.",
   "version": "2.1.0",
   "author": {
-    "name": "Sachin Sharma",
-    "url": "https://github.com/elementalsouls"
+    "name": "Rauf",
+    "url": "https://github.com/mansoorwanimansoorwani23-collab"
   },
-  "homepage": "https://elementalsouls.github.io/Claude-BugHunter",
-  "repository": "https://github.com/elementalsouls/Claude-BugHunter",
+  "homepage": "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter",
+  "repository": "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter",
   "license": "MIT",
   "userConfig": {
     "hackerone_api_username": {

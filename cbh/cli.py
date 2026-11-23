@@ -53,7 +53,7 @@ REPORTS_DIR = REPO_ROOT / "docs" / "disclosed-reports"
 # Clone mode = the live repo is present (skills/ on disk). Otherwise we're
 # pip-installed and fall back to the bundled cbh/data/skill_index.json.
 CLONE_MODE = SKILLS_DIR.is_dir() and any(SKILLS_DIR.iterdir()) if SKILLS_DIR.exists() else False
-REPO_URL = "https://github.com/elementalsouls/Claude-BugHunter"
+REPO_URL = "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter"
 
 _BUNDLED_INDEX: dict | None = None
 
