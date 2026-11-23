@@ -4,10 +4,10 @@
   "version": "2.1.0",
   "author": {
     "name": "Rauf",
-    "url": "https://github.com/mansoorwanimansoorwani23-collab"
+    "url": "https://github.com/raufzen"
   },
-  "homepage": "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter",
-  "repository": "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter",
+  "homepage": "https://github.com/raufzen/Claude-BugHunter",
+  "repository": "https://github.com/raufzen/Claude-BugHunter",
   "license": "MIT",
   "userConfig": {
     "hackerone_api_username": {

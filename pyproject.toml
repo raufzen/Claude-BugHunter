@@ -18,8 +18,8 @@ dependencies = []
 http = ["requests"]
 
 [project.urls]
-Homepage = "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter"
-Documentation = "https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter/blob/main/docs/cbh-cli.md"
+Homepage = "https://github.com/raufzen/Claude-BugHunter"
+Documentation = "https://github.com/raufzen/Claude-BugHunter/blob/main/docs/cbh-cli.md"
 
 [project.scripts]
 cbh = "cbh.cli:main"

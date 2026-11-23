@@ -4,7 +4,7 @@
 
 > A self-contained Claude skill bundle for bug hunting and external red-team work · **83 skills** · 15 slash commands · **681 disclosed-report patterns** (433 now individually cited & auditable) across 24 core vulnerability classes · enterprise identity + infrastructure attack matrices · engagement-folder scaffolding · Burp MCP integration · battle-tested across authorized red-team and bug-hunting engagements, plus public training platforms (DVWA, OWASP Juice Shop, Hacker101, testphp.vulnweb.com).
 
-Built by **[Rauf](https://github.com/mansoorwanimansoorwani23-collab)** — Bug Hunting & Security Research.
+Built by **[Rauf](https://github.com/raufzen)** — Bug Hunting & Security Research.
 
 ---
 
@@ -28,8 +28,8 @@ All triggered automatically by topic — describe what you're testing in plain E
 **Option A — install as a Claude Code plugin (recommended).** From inside Claude Code:
 
 ```text
-/plugin marketplace add mansoorwanimansoorwani23-collab/Claude-BugHunter
-/plugin install claude-bughunter@mansoorwanimansoorwani23-collab
+/plugin marketplace add raufzen/Claude-BugHunter
+/plugin install claude-bughunter@raufzen
 ```
 
 All 83 skills + 15 commands load namespaced under `claude-bughunter:` and update when you bump the plugin version — no files copied into `~/.claude/`.
@@ -39,7 +39,7 @@ All 83 skills + 15 commands load namespaced under `claude-bughunter:` and update
 **Option B — copy install (no plugin system / pin to a clone):**
 
 ```bash
-git clone https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter.git
+git clone https://github.com/raufzen/Claude-BugHunter.git
 cd Claude-BugHunter
 ```
 
@@ -61,7 +61,7 @@ Both copy the skills + commands into `~/.claude/` (macOS/Linux) or `%USERPROFILE
 | **B — copy install** | ✅ copied into `~/.claude/` | ✅ from the clone | ✅ from the clone |
 
 The plugin is the fastest path to the skills + slash commands. The terminal-native
-`cbh` runner installs standalone — `pipx install git+https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter`
+`cbh` runner installs standalone — `pipx install git+https://github.com/raufzen/Claude-BugHunter`
 — so plugin users can add it without a full clone (see [`cbh` CLI](docs/cbh-cli.md)).
 The `hunt` engagement scaffolder ships with the clone (Option B).
 
@@ -115,7 +115,7 @@ pwsh ./scripts/install.ps1 -All -BurpMcp
 
 ## Star History
 
-<a href="https://github.com/mansoorwanimansoorwani23-collab/Claude-BugHunter/stargazers">
+<a href="https://github.com/raufzen/Claude-BugHunter/stargazers">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="assets/star-history-dark.svg" />
    <source media="(prefers-color-scheme: light)" srcset="assets/star-history-light.svg" />
@@ -273,7 +273,7 @@ The per-class `hunt-*` skills address gap-zero (*"what should I look for in weba
 
 Operational tradecraft accumulated across bug-bounty engagements and authorized pentests, codified into Claude skills. Platform-agnostic — slot into any engagement workflow you already use, or none.
 
-**Author:** [Rauf](https://github.com/mansoorwanimansoorwani23-collab) · Bug Hunting & Security Research
+**Author:** [Rauf](https://github.com/raufzen) · Bug Hunting & Security Research
 
 **Vendored foundation:** [shuvonsec/claude-bug-bounty](https://github.com/shuvonsec/claude-bug-bounty) — methodology, validation, reporting, payload library (8 of 83 skills + 15 slash commands)
 
