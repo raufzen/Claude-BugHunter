@@ -13,6 +13,7 @@ Usage:
 Writes assets/star-history-light.svg and assets/star-history-dark.svg.
 """
 import json
+import os
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -169,7 +170,8 @@ def main():
     print(f"fetching stargazers for {REPO} …")
     stamps = fetch_stars(REPO)
     if not stamps:
-        sys.exit("no stargazer data returned — is `gh` authenticated?")
+        print(f"repository {REPO} has no stargazers yet; preserving existing charts.")
+        return
     series = build_series(stamps)
     print(f"  {len(stamps):,} stars, {series[0][0]:%Y-%m-%d} → {series[-1][0]:%Y-%m-%d}")
     OUT.mkdir(exist_ok=True)
