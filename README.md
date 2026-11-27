@@ -2,7 +2,7 @@
 
 # claude-bughunter
 
-> A self-contained Claude skill bundle for bug hunting and external red-team work · **83 skills** · 15 slash commands · **681 disclosed-report patterns** (433 now individually cited & auditable) across 24 core vulnerability classes · enterprise identity + infrastructure attack matrices · engagement-folder scaffolding · Burp MCP integration · battle-tested across authorized red-team and bug-hunting engagements, plus public training platforms (DVWA, OWASP Juice Shop, Hacker101, testphp.vulnweb.com).
+> A self-contained Claude skill bundle for bug hunting and external red-team work · **85 skills** · 16 slash commands · **681 disclosed-report patterns** (433 now individually cited & auditable) across 24 core vulnerability classes · enterprise identity + infrastructure attack matrices · engagement-folder scaffolding · Burp MCP integration · battle-tested across authorized red-team and bug-hunting engagements, plus public training platforms (DVWA, OWASP Juice Shop, Hacker101, testphp.vulnweb.com).
 
 Built by **[Rauf](https://github.com/raufzen)** — Bug Hunting & Security Research.
 
@@ -32,7 +32,7 @@ All triggered automatically by topic — describe what you're testing in plain E
 /plugin install claude-bughunter@raufzen
 ```
 
-All 83 skills + 15 commands load namespaced under `claude-bughunter:` and update when you bump the plugin version — no files copied into `~/.claude/`.
+All 85 skills + 16 commands load namespaced under `claude-bughunter:` and update when you bump the plugin version — no files copied into `~/.claude/`.
 
 **A HackerOne account is optional.** The install asks for a HackerOne API username and token. They only let the HackerOne MCP read your private programs and your own reports; leave both blank if you don't need that. Every skill, command and the MCP's public tools (duplicate search, program scope) work without them.
 
@@ -55,13 +55,13 @@ Both copy the skills + commands into `~/.claude/` (macOS/Linux) or `%USERPROFILE
 
 **What each install path gives you:**
 
-| Path | 83 skills + 15 slash commands | `cbh` CLI | `hunt` scaffolder |
+| Path | 85 skills + 16 slash commands | `cbh` CLI | `hunt` scaffolder |
 |---|---|---|---|
 | **A — plugin** | ✅ namespaced under `claude-bughunter:` | ➕ separate `pipx install` | ❌ clone-only |
 | **B — copy install** | ✅ copied into `~/.claude/` | ✅ from the clone | ✅ from the clone |
 
 The plugin is the fastest path to the skills + slash commands. The terminal-native
-`cbh` runner installs standalone — `pipx install git+https://github.com/raufzen/Claude-BugHunter`
+`cbh` runner installs standalone — `pipx install git+https://github.com/raufzen/Claude-BugHunter` or `pip install cbh` from PyPI.
 — so plugin users can add it without a full clone (see [`cbh` CLI](docs/cbh-cli.md)).
 The `hunt` engagement scaffolder ships with the clone (Option B).
 
@@ -157,17 +157,17 @@ If you're running an internal red team that includes domain-takeover chains via 
 
 ## What's inside
 
-**83 skills**, auto-loaded by topic — no invocation by name. Coverage across the external attack surface:
+**85 skills**, auto-loaded by topic — no invocation by name. Coverage across the external attack surface:
 
 | Category | # | Examples |
 |---|---|---|
 | Hunt — web app vuln classes | 58 | XSS, SQLi, SSRF, IDOR, LFI, SSTI, XXE, CSRF, CORS, open-redirect, SharePoint, ASP.NET/NTLM |
 | Enterprise platform attack ★ | 10 | M365/Entra, Okta, cloud-IAM-deep, vCenter, enterprise VPN, APK/iOS red-team pipelines, supply-chain recon |
-| Reporting & validation | 6 | triage-validation, evidence-hygiene, report-writing, bugcrowd-reporting |
+| Reporting & validation | 7 | triage-validation, evidence-hygiene, report-writing, bugcrowd-reporting |
 | Recon & OSINT | 5 | web2-recon, offensive-osint, osint-methodology, recon-scope-triage |
-| Methodology & mindset | 4 | bb-methodology, bug-bounty, redteam-mindset, bb-local-toolkit |
+| Methodology & mindset | 5 | bb-methodology, bug-bounty, redteam-mindset, bb-local-toolkit |
 
-Full searchable catalog → **[docs/skills.md](docs/skills.md)**. Also ships **15 slash commands** (`/hunt`, `/recon`, `/report`, …) and a deterministic **engagement engine** (`engine/`) that maps a target's attack surface and routes each finding to the skill that handles it.
+Full searchable catalog → **[docs/skills.md](docs/skills.md)**. Also ships **16 slash commands** (`/hunt`, `/recon`, `/report`, …) and a deterministic **engagement engine** (`engine/`) that maps a target's attack surface and routes each finding to the skill that handles it.
 
 ---
 
@@ -261,7 +261,7 @@ The per-class `hunt-*` skills address gap-zero (*"what should I look for in weba
 - [x] HackerOne MCP integration — [`mcp/hackerone/`](mcp/hackerone/README.md): disclosed-report duplicate search, program stats and scope; optional logged-in mode for private programs and your own reports
 - [ ] Per-engagement memory layer — pattern recall across targets
 - [x] Industry-specific hunt skills — `hunt-fintech-graphql` shipped; `hunt-healthcare-fhir`, `hunt-gov-compliance` still open
-- [ ] Program-rules-parser skill — auto-generate structured `scope.md` from program text
+- [x] Program-scope importer — `cbh scope import` builds `scope.md` from a program's published scope (HackerOne, Bugcrowd, Intigriti, YesWeHack via [bounty-targets-data](https://github.com/arkadiyt/bounty-targets-data); HackerOne MCP output for private programs; or pasted program text), failing closed on anything ambiguous — see [`cbh` CLI](docs/cbh-cli.md)
 - [ ] Refresh `hunt-*` skills with newer disclosed reports (re-run `public-skills-builder`)
 - [ ] Additional enterprise-platform skills — `citrix-netscaler-deep`, `f5-bigip-attack`, `ad-cs-attack` (AD Certificate Services)
 - [ ] Refresh enterprise-VPN CVE matrix quarterly to track 2026 advisories
@@ -275,7 +275,7 @@ Operational tradecraft accumulated across bug-bounty engagements and authorized 
 
 **Author:** [Rauf](https://github.com/raufzen) · Bug Hunting & Security Research
 
-**Vendored foundation:** [shuvonsec/claude-bug-bounty](https://github.com/shuvonsec/claude-bug-bounty) — methodology, validation, reporting, payload library (8 of 83 skills + 15 slash commands)
+**Vendored foundation:** [shuvonsec/claude-bug-bounty](https://github.com/shuvonsec/claude-bug-bounty) — methodology, validation, reporting, payload library (8 of 85 skills + 16 slash commands)
 
 **Generator tool used (not vendored):** [shuvonsec/public-skills-builder](https://github.com/shuvonsec/public-skills-builder) — used to scaffold per-class skills from H1 disclosed reports
 

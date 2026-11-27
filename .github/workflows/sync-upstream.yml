@@ -1,0 +1,54 @@
+name: Auto Sync Upstream
+
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add Upstream and Fetch
+        run: |
+          git remote add upstream https://github.com/elementalsouls/Claude-BugHunter.git || true
+          git fetch upstream main --tags --force
+
+      - name: Check for New Upstream Commits
+        id: check_upstream
+        run: |
+          UPSTREAM_REV=$(git rev-parse upstream/main)
+          COMMON_BASE=$(git merge-base main upstream/main || echo "")
+          echo "Upstream: $UPSTREAM_REV, Common: $COMMON_BASE"
+          if [ "$UPSTREAM_REV" = "$COMMON_BASE" ]; then
+            echo "Already up to date."
+            echo "new_commits=false" >> $GITHUB_OUTPUT
+          else
+            echo "New commits detected!"
+            echo "new_commits=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Merge Upstream & Preserve Branding
+        if: steps.check_upstream.outputs.new_commits == 'true'
+        run: |
+          git merge upstream/main -m "chore: auto-sync updates from upstream Claude-BugHunter" || true
+          git checkout HEAD -- assets/banner-v2.svg 2>/dev/null || true
+          sed -i 's/Built by \*\*\[.*\]\(.*\)\*\* — Bug Hunting/Built by **[Rauf](https:\/\/github.com\/raufzen)** — Bug Hunting/g' README.md
+          sed -i 's/elementalsouls\/Claude-BugHunter/raufzen\/Claude-BugHunter/g' README.md
+          git add -A
+          git commit -m "chore(branding): preserve Rauf Zen branding on upstream sync" || true
+          git push origin main

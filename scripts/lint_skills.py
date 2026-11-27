@@ -68,6 +68,7 @@ SECRET_ALLOW = re.compile(
 DESC_LIMIT_GRANDFATHERED = {"bug-bounty", "bb-local-toolkit", "osint-methodology"}
 
 WORD_RE = re.compile(r"[a-z0-9]+")
+_SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
 
 
 def load_denylist():
@@ -76,18 +77,40 @@ def load_denylist():
     sha_file = os.path.join(SCRIPTS_DIR, ".identifier-denylist.sha256")
     if os.path.exists(sha_file):
         with open(sha_file, encoding="utf-8") as fh:
-            for line in fh:
+            for line_no, line in enumerate(fh, 1):
                 line = line.strip()
-                if line and not line.startswith("#"):
-                    hashes.add(line.lower())
+                if not line or line.startswith("#"):
+                    continue
+                low = line.lower()
+                if not _SHA256_RE.match(low):
+                    # A non-digest entry matches nothing — a fail-open in the leak
+                    # guard. Stop and name the line, never printing its content.
+                    print(f"ERROR lint_skills: malformed denylist entry at "
+                          f"{sha_file}:{line_no} (not a sha256 digest). Fix that line.",
+                          file=sys.stderr)
+                    raise SystemExit(2)
+                hashes.add(low)
     # Optional gitignored plaintext override for maintainer convenience.
     local = os.path.join(SCRIPTS_DIR, ".identifier-denylist.local")
     if os.path.exists(local):
         with open(local, encoding="utf-8") as fh:
-            for line in fh:
-                name = " ".join(line.strip().lower().split())
-                if name and not name.startswith("#"):
-                    hashes.add(hashlib.sha256(name.encode()).hexdigest())
+            for line_no, line in enumerate(fh, 1):
+                stripped = line.strip()
+                if not stripped or stripped.startswith("#"):
+                    continue
+                # Tokenize the entry exactly as the scanner shingles text (WORD_RE),
+                # so a name with punctuation hashes to a shingle the scan can produce
+                # (#267); fail CLOSED on a 3+ word entry the scanner can't match.
+                words = WORD_RE.findall(stripped.lower())
+                if not words:
+                    continue
+                if len(words) > 2:
+                    print(f"ERROR lint_skills: FAIL-CLOSED — denylist entry at "
+                          f"{local}:{line_no} has more than two words; a 3+ word name "
+                          f"cannot be matched. Split it or add its sha256.",
+                          file=sys.stderr)
+                    raise SystemExit(2)
+                hashes.add(hashlib.sha256(" ".join(words).encode()).hexdigest())
     return hashes
 
 

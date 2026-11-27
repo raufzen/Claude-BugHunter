@@ -1,6 +1,6 @@
 # Claude-BugHunter — Usage Guide
 
-A practical guide to using the 83-skill Claude-BugHunter bundle for bug hunting (bounty programs, authorized pentesting, CTFs, vuln research) **and external red-team engagements** against enterprise targets. This document covers what's in the bundle, how it composes, and how to use it on a real engagement from intake through paid bounty (or final client deliverable).
+A practical guide to using the 85-skill Claude-BugHunter bundle for bug hunting (bounty programs, authorized pentesting, CTFs, vuln research) **and external red-team engagements** against enterprise targets. This document covers what's in the bundle, how it composes, and how to use it on a real engagement from intake through paid bounty (or final client deliverable).
 
 > Built and validated through authorized red-team and bug-bounty engagements — exposed four bug-bounty capability gaps and five additional gaps around platform attack chains, mid-engagement IR detection, and client-facing reporting. The final stack documented here addresses both modes.
 
@@ -12,7 +12,7 @@ This section is for people who have **never used the bundle before, never used C
 
 ### What is this bundle, in plain English?
 
-It's a collection of 83 markdown files (called **skills**) that turn Claude Code into a methodical bug-hunting assistant.
+It's a collection of 85 markdown files (called **skills**) that turn Claude Code into a methodical bug-hunting assistant.
 
 Without the bundle, asking Claude *"is this XSS?"* gets you a generic answer. With the bundle installed, the same question loads the `hunt-xss` skill — which contains specific detection patterns from 681+ disclosed reports, the exact payloads that have worked, and a validation gate that prevents you from filing a false-positive bug report.
 
@@ -31,7 +31,7 @@ You don't "learn" the bundle. You install it once, then describe what you're tes
 - ❌ You don't need to know how to write exploits. The skills include working payloads.
 - ❌ You don't need to know Burp Suite. It's optional. Skills work with curl + browser.
 - ❌ You don't need a bug bounty account yet. You can practice on OWASP Juice Shop first.
-- ❌ You don't need to read all 83 skills. They auto-load when relevant.
+- ❌ You don't need to read all 85 skills. They auto-load when relevant.
 - ❌ You don't need Python beyond `python --version` working (run `python3 --version` on macOS/Linux).
 
 ### Your first 30 minutes
@@ -45,7 +45,7 @@ mkdir -p ~/security-research && cd ~/security-research
 git clone https://github.com/elementalsouls/Claude-BugHunter.git
 cd Claude-BugHunter
 
-# 2. Install (copies 83 skills + 15 commands into Claude Code)
+# 2. Install (copies 85 skills + 16 commands into Claude Code)
 bash scripts/install.sh
 
 # 3. Reload your shell so the 'hunt' command becomes available
@@ -63,7 +63,7 @@ cd "$HOME\security-research"
 git clone https://github.com/elementalsouls/Claude-BugHunter.git
 cd Claude-BugHunter
 
-# 2. Install (copies 83 skills + 15 commands into Claude Code)
+# 2. Install (copies 85 skills + 16 commands into Claude Code)
 pwsh ./scripts/install.ps1
 
 # 3. Reload your profile so the 'hunt' command becomes available
@@ -168,7 +168,7 @@ See [docs/architecture.md](docs/architecture.md) for a more detailed breakdown.
 
 ---
 
-## 2. Skill inventory (83 skills total)
+## 2. Skill inventory (85 skills total)
 
 ### Workflow skills — the spine of any engagement
 
@@ -398,7 +398,7 @@ Cross-reference this UUID in any chained submissions you file later.
 If another pentester wants to replicate this stack, the install steps are in [INSTALL.md](INSTALL.md). The short version:
 
 1. Clone this repo
-2. Run the installer — `bash scripts/install.sh` (macOS/Linux) or `pwsh ./scripts/install.ps1` (Windows) — installs all 83 skills, 15 commands, and the `hunt` scaffold in one step (use `--all` / `-All` or `--antigravity` / `-AntiGravity` for other harnesses like Google AntiGravity, Codex, or Hermes)
+2. Run the installer — `bash scripts/install.sh` (macOS/Linux) or `pwsh ./scripts/install.ps1` (Windows) — installs all 85 skills, 16 commands, and the `hunt` scaffold in one step (use `--all` / `-All` or `--antigravity` / `-AntiGravity` for other harnesses like Google AntiGravity, Codex, or Hermes)
 3. Set up Burp MCP (BApp Store extension + `claude mcp add burp ...`)
 4. (Optional) Refresh upstream snapshots via `./scripts/install-community-skills.sh` (macOS/Linux) or `pwsh ./scripts/install-community-skills.ps1` (Windows)
 5. (Optional) Set up the skill regenerator with Anthropic + H1 API keys
@@ -434,14 +434,15 @@ The validation engagement that produced this stack illustrated all three: the or
 
 If you keep using this and want to extend it:
 
-1. **Per-engagement memory — ✅ now shipped (the autopilot ledger).** The engine auto-captures confirmed findings and dead-class negatives to `~/.claude/bughunter/memory/`, and the autonomous hunt loop can skip provably-wasteful agent calls — re-confirming a finding already confirmed on a prior run, or re-testing a vuln class that never pays off on a stack.
-   - **Off by default = full coverage.** Enable per run with `--use-memory`:
+1. **Per-engagement memory — ✅ now shipped (the autopilot ledger).** The autopilot ledger captures confirmed findings and dead-class negatives to `~/.claude/bughunter/memory/` (hostnames + URLs), and the autonomous hunt loop can skip provably-wasteful agent calls — re-confirming a finding already confirmed on a prior run, or re-testing a vuln class that never pays off on a stack.
+   - **Opt-in, off by default — and the default pools nothing.** `--use-memory` governs **both** the reads (the skips) **and** the writes (the cross-engagement capture). A default run keeps full coverage **and** persists **nothing** target-identifying across engagements — important on authorized client work. Per-engagement state still lives (and dies) in `<base>/<name>/`.
      ```bash
      python3 engine/engine.py --scope <engagement>.json --hunt --use-memory
      ```
-   - `/autopilot` maps modes to it: `--paranoid` (default) / `--normal` → memory **off** (full coverage); `--quick` / `--yolo` → memory **on** (token-saving skips).
-   - A class never hunted on a stack is never skipped, and every skip is logged — coverage is never silently reduced. Manage the store with `/memory-gc`; review a target's history with `/pickup <host>`.
+   - `/autopilot` maps modes to it: `--paranoid` (default) / `--normal` → memory **off** (full coverage, nothing pooled); `--quick` / `--yolo` → memory **on** (persistent recall + token-saving skips).
+   - A class never hunted on a stack is never skipped, and every skip is logged — coverage is never silently reduced. Manage the store with `/memory-gc`; review a target's history with `/pickup <host>` (populated only on `--use-memory` runs).
    - Benefit scales with repeat targets / recurring stacks; expect little effect on a cold start (new or one-off stack).
+   - **Leak-proof alternative — `--use-metrics`.** Want cross-target learning *without* storing any host/URL? `--use-metrics` records a separate store of **generic counters only** — attempts / successes / cost keyed by tech-stack signature + vuln-class — and ranks class suggestions by past hit-rate in `arsenal.md`. It never stores a hostname, URL, payload, or body (fail-closed), never auto-fires, and leaves scope, the corroborator, and the 7-Question gate fully in charge. Safe to leave on across clients.
 2. **HackerOne MCP integration — ✅ now shipped (`mcp/hackerone/`).** Live duplicate search over disclosed reports, program stats and structured scope during reports; with `HACKERONE_API_USERNAME` / `HACKERONE_API_TOKEN` set it also reads private programs and your own reports. Setup in [`mcp/hackerone/README.md`](mcp/hackerone/README.md).
 3. **Specialized `hunt-*` skills** for high-payout niches you focus on (e.g., `hunt-fintech-graphql`, `hunt-healthcare-fhir`).
 4. **A `program-rules-parser` skill** that takes program text and produces a structured `scope.md` automatically.

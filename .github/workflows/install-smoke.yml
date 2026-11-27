@@ -12,6 +12,7 @@ on:
       - "scripts/setup_harness_mcp.py"
       - "scripts/hunt.sh"
       - "scripts/hunt.ps1"
+      - "scripts/test_hunt_target.sh"
       - ".github/workflows/install-smoke.yml"
   push:
     branches: [main]
@@ -21,6 +22,8 @@ on:
       - "scripts/setup_harness_mcp.py"
       - "scripts/hunt.sh"
       - "scripts/hunt.ps1"
+      - "scripts/test_hunt_target.sh"
+      - ".github/workflows/install-smoke.yml"
   workflow_dispatch:
 
 permissions:
@@ -96,6 +99,9 @@ jobs:
           HOME="$T" ZDOTDIR="$T" bash scripts/install.sh --uninstall
           cmp "$T/expected" "$T/.bashrc"
 
+      - name: hunt rejects unsafe target names (#252)
+        run: bash scripts/test_hunt_target.sh
+
   powershell-smoke:
     name: PowerShell parse and installer smoke
     runs-on: windows-latest
@@ -118,6 +124,15 @@ jobs:
           if (-not (Select-String -LiteralPath (Join-Path $env:HUNT_BASE 'synthetic-case/notes.md') -Pattern '- [P1] https://example.invalid/graphql - hunt-graphql' -SimpleMatch)) {
             throw "Ranked route missing from scaffold"
           }
+          # #252: an unsafe target name must be rejected (exit 1) and create nothing
+          foreach ($bad in '../escaped','a/b','-x','.hidden') {
+            hunt $bad 2>$null
+            if ($LASTEXITCODE -ne 1) { throw "hunt '$bad' was not rejected" }
+          }
+          if (Test-Path (Join-Path $scratch 'escaped')) { throw "'../escaped' escaped HUNT_BASE" }
+          # reject sets LASTEXITCODE=1; clear it so the step itself exits clean
+          # (the throws above, not the exit code, are what fail this step on a real bug)
+          $global:LASTEXITCODE = 0
       - name: parse .ps1 installers
         shell: pwsh
         run: |

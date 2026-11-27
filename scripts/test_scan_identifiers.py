@@ -80,6 +80,36 @@ def main():
         subprocess.run(["git", "-C", tmp, "add", "--", unicode_leak], check=True)
         assert mod.main([]) == 1, "expected tracked scan to inspect Unicode filename"
 
+        # 3b. a .local entry is tokenized the SAME way the scanner shingles text, so
+        # an entry with punctuation matches where it appears (#267). Restore deny.
+        with open(deny, "w") as fh:
+            fh.write("# test denylist\n" + banned + "\n")
+        local = os.path.join(scripts, ".identifier-denylist.local")
+        with open(local, "w", encoding="utf-8") as fh:
+            fh.write("Example-Corp\nexample.io\n")
+        hyphen = os.path.join(tmp, "hyphen.md")
+        with open(hyphen, "w") as fh:
+            fh.write("Engagement for Example-Corp (prod)\n")
+        assert mod.main([hyphen]) == 1, "hyphenated .local entry must be caught (#267)"
+        dotted = os.path.join(tmp, "dotted.md")
+        with open(dotted, "w") as fh:
+            fh.write("see example.io/admin for the panel\n")
+        assert mod.main([dotted]) == 1, "dotted .local entry must be caught (#267)"
+
+        # 3c. a 3+ word .local entry can never match as a unit (scanner emits only
+        # 1- and 2-word shingles) -> fail CLOSED, don't silently pass.
+        with open(local, "w", encoding="utf-8") as fh:
+            fh.write("Big Example Bank\n")
+        err3 = io.StringIO() if (io := __import__("io")) else None
+        import contextlib as _ctx
+        try:
+            with _ctx.redirect_stderr(err3):
+                rc3 = mod.main([clean])
+        except SystemExit as e:
+            rc3 = e.code
+        assert rc3 == 2, "a 3+ word .local entry must FAIL CLOSED (#267)"
+        os.remove(local)
+
         # 4. fail-closed on empty denylist
         with open(deny, "w") as fh:
             fh.write("# comments only, no hashes\n")
@@ -87,6 +117,22 @@ def main():
         # 5. fail-closed on missing denylist
         os.remove(deny)
         assert mod.main([clean]) == 2, "expected FAIL-CLOSED (exit 2) on missing denylist"
+
+        # 6. a malformed denylist entry fails CLOSED (exit 2), names the line, not its content
+        import io
+        import contextlib
+        bad_token = "not-a-sha256-hash"
+        with open(deny, "w") as fh:
+            fh.write("# header\n" + banned + "\n" + bad_token + "\n")
+        err = io.StringIO()
+        try:
+            with contextlib.redirect_stderr(err):
+                rc = mod.main([clean])
+        except SystemExit as e:
+            rc = e.code
+        assert rc == 2, "expected FAIL-CLOSED (exit 2) on malformed denylist entry"
+        assert ":3" in err.getvalue(), "error must point to the offending line (3)"
+        assert bad_token not in err.getvalue(), "must not print the offending content"
 
     print("PASS: scan_identifiers self-check (catch, clean, case-insensitive, fail-closed)")
     return 0

@@ -1,9 +1,13 @@
 ---
 title: Home
+layout: home
 nav_order: 1
-description: A Claude skill bundle for bug hunting and external red-team work.
+description: A Claude Code skill bundle that turns Claude into a senior bug-hunting researcher and external red-team operator.
 permalink: /
 ---
+
+<!-- The landing page is rendered by docs/_layouts/home.html (bespoke hero).
+     The content below is a no-JS / crawler fallback only. -->
 
 # claude-bughunter
 {: .fs-9 }
@@ -22,7 +26,7 @@ platform CVE chains, and the hygiene, and it stays in scope.
 
 ## What you get
 
-- **83 skills** across recon, 58 web-app vuln-class + framework skills, enterprise
+- **85 skills** across recon, 58 web-app vuln-class + framework skills, enterprise
   platform attack, red-team tradecraft, and reporting — all **auto-loading by topic**,
   no invocation by name.
 - **681 disclosed-report patterns** curated from public HackerOne reports — 433 now individually cited & auditable.
